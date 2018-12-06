@@ -3,6 +3,47 @@
 #define M 14
 #define N 30
 
+void cls();
+void defineTable(char table[][]);
+void printTable(char table[][]);
+void setFlag(char table[][] ,int ,int);
+void Unflag(char table[][] ,int ,int);
+
+
+int main(){
+
+    char table[M][N];
+    defineTable(table);
+
+    char cmd[3];
+    char xY[3];
+    
+    while(1){
+        fgets(cmd, sizeof(cmd)*3, stdin);
+        
+        switch(cmd[0]) {
+            case 'e': return 0; //exit
+            break;
+
+            case 'c': //choose x and y
+            ;
+            break;
+
+            case 'f': //Set Flag
+            printf("%d", 2);
+            break;
+
+            case 'u': //UnFlag
+            printf("%d", 3);
+            break;
+        }
+    }
+    
+    return 0;
+}
+
+
+
 void cls(){
     system("cls");
 }
@@ -24,31 +65,10 @@ void printTable(char table[M][N]){
     }
 }
 
-int main(){
+void setFlag(char table[M][N] ,int x ,int y){
 
-    char table[M][N];
-    defineTable(table);
+}
 
-    char cmd[3];
-    char xY[3];
-    while(1){
-        fgets(cmd, sizeof(cmd)*3, stdin);
-        
-        switch(cmd[0]) {
-            case 'e': return 0;
-            break;
-            case 'c': printf("%d", 1);
-            break;
-            case 'f': printf("%d", 2);
-            break;
-            case 'u': printf("%d", 3);
-        }
+void Unflag(char table[M][N] ,int x ,int y){
 
-
-
-    }
-    
-  
-    
-    return 0;
 }
