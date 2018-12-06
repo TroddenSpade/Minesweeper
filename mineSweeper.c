@@ -2,41 +2,54 @@
 #include <stdlib.h>
 #define M 14
 #define N 30
+#define mine 40
 
 void cls();
-void defineTable(char table[][]);
-void printTable(char table[][]);
-void setFlag(char table[][] ,int ,int);
-void Unflag(char table[][] ,int ,int);
+void defineTable(char table[M][N]);
+void randMine(int mines[mine][2]);
+void printTable(char table[M][N]);
+void setFlag(char table[M][N] ,int ,int);
+void unflag(char table[M][N] ,int ,int );
 
 
 int main(){
-
     char table[M][N];
     defineTable(table);
 
     char cmd[3];
     char xY[3];
-    
+
     while(1){
+        
+
         fgets(cmd, sizeof(cmd)*3, stdin);
+        int y , x;
         
         switch(cmd[0]) {
             case 'e': return 0; //exit
-            break;
 
             case 'c': //choose x and y
-            ;
+            fgets(xY, sizeof(xY)*3, stdin);
+            x = xY[0] - 48;
+            y = xY[2] - 48;
             break;
 
             case 'f': //Set Flag
-            printf("%d", 2);
+            fgets(xY, sizeof(xY)*3, stdin);
+            x = xY[0] - 48;
+            y = xY[2] - 48;
+            setFlag(table,x,y);
             break;
 
             case 'u': //UnFlag
-            printf("%d", 3);
+            fgets(xY, sizeof(xY)*3, stdin);
+            x= xY[0] - 48;
+            y= xY[2] - 48;
             break;
         }
+
+        printTable(table);
+        
     }
     
     return 0;
@@ -59,16 +72,17 @@ void defineTable(char table[M][N]){
 void printTable(char table[M][N]){
     for(int i=0;i<M;i++){
         for(int j=0;j<N;j++){
-            putchar(table[i][j]);
+            printf("%c",table[i][j]);
         }
         puts("");
     }
 }
 
 void setFlag(char table[M][N] ,int x ,int y){
-
+    table[x][y] ='P';
+    
 }
 
-void Unflag(char table[M][N] ,int x ,int y){
-
+void unflag(char table[M][N] ,int x ,int y){
+    table[x][y] = '#';
 }
