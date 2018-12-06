@@ -12,7 +12,9 @@ void randMine(int mines[],int size);
 void printTable(char table[M][N]);
 void setFlag(char table[M][N] ,int ,int);
 void unflag(char table[M][N] ,int ,int );
-void sweeper(char table[M][N],int,int);
+void sweeper(char table[M][N],int mines[],int,int ,int );
+void printMines();
+
 int checker(int mines[],int ,int,int);
 
 
@@ -37,6 +39,7 @@ int main(){
             fgets(xY, sizeof(xY)*3, stdin);
             x = xY[0] - 48;
             y = xY[2] - 48;
+            sweeper(table,mines,Mine,x,y);
             break;
 
             case 'f': //Set Flag
@@ -111,6 +114,25 @@ void unflag(char table[M][N] ,int x ,int y){
     table[x][y] = '#';
 }
 
-void sweeper(char table[M][N],int x,int y){
+void sweeper(char table[M][N],int mines[],int size,int x,int y){
+    int count =0;
+    for(int i=-1;i<2;i++){
+        if(x+i < 0) continue;
+        for(int j=-1;j<2;j++){
+            if(y+j < 0) continue;
+            if(checker(mines,size,x+i,y+j) == 1)    count++;
+        }
+    }
 
+    if(count > 0)   table[x][y] = count+'0';
+    else{
+        table[x][y]=' ';
+        for(int i=-1;i<2;i++){
+        if(x+i < 0) continue;
+        for(int j=-1;j<2;j++){
+            if(y+j < 0) continue;
+            sweeper(table,mines,size,x+i,y+j);
+        }
+    }
+    }
 }
