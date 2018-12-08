@@ -16,9 +16,9 @@ void sweeper(char table[M][N],char tableCheck[M][N],int mines[],int,int ,int );
 int checker(int mines[],int ,int,int);
 
 
-///////////////////////////////////
-//void printMines(char table[M][N],int mines[],int size);
-///////////////////////////////////
+/////////////////////////////////
+void printMines(char table[M][N],int mines[],int size);
+/////////////////////////////////
 
 
 
@@ -32,6 +32,7 @@ int main(){
     defineTable(table);
     int mines[Mine];
     randMine(mines,Mine);
+
     char cmd[3];
     char xY[3];
 
@@ -49,14 +50,8 @@ int main(){
             x = xY[0] - 48;
             y = xY[2] - 48;
             if(checker(mines,Mine,x,y) == 1){
-
-
-                table[x][y]='*';
-            /////////////////////////////////////////////
-            //void printMines(char table[M][N],int mines[],int size);
-            /////////////////////////print Mines function
-
-
+                printMines(table,mines,Mine);
+                
 
             }else{
                 sweeper(table,tableCheck,mines,Mine,x,y);
@@ -107,9 +102,14 @@ int checker(int mines[],int n ,int a,int b){
 }
 
 
-//////////////////////////////////////////////////////////////
-//void printMines(char table[M][N],int mines[],int size);
-//////////////////////////////////////////////////////////////
+void printMines(char table[M][N],int mines[],int size){
+    int x,y;
+    for(int i=0;i<size;i++){
+        x = mines[i]%M;
+        y = mines[i]/14;
+        table[x][y]='*';
+    }
+}
 
 
 void cls(){
