@@ -7,22 +7,16 @@
 #define Mine 40
 
 void cls();
+int inputX(char xY[]);
+int inputY(char xY[]);
+int checker(int mines[],int ,int,int);
 void defineTable(char table[M][N]);
 void randMine(int mines[],int size);
 void printTable(char table[M][N]);
 void setFlag(char table[M][N] ,int ,int);
 void unflag(char table[M][N] ,int ,int );
 void sweeper(char table[M][N],char tableCheck[M][N],int mines[],int,int ,int );
-int checker(int mines[],int ,int,int);
-
-
-/////////////////////////////////
 void printMines(char table[M][N],int mines[],int size);
-/////////////////////////////////
-
-
-
-
 
 
 int main(){
@@ -34,25 +28,24 @@ int main(){
     randMine(mines,Mine);
 
     char cmd[3];
-    char xY[3];
+    char xY[5];
 
     while(1){
         printTable(table);
         
         fgets(cmd, sizeof(cmd)*3, stdin);
         int y , x;
-        
+
         switch(cmd[0]) {
             case 'e': return 0; //exit
 
             case 'c': //choose x and y
-            fgets(xY, sizeof(xY)*3, stdin);
-            x = xY[0] - 48;
-            y = xY[2] - 48;
+            fgets(xY, sizeof(xY)*5, stdin);
+            x = inputX(xY);
+            y = inputY(xY);
+            
             if(checker(mines,Mine,x,y) == 1){
                 printMines(table,mines,Mine);
-                
-
             }else{
                 sweeper(table,tableCheck,mines,Mine,x,y);
             }
@@ -60,24 +53,47 @@ int main(){
             break;
 
             case 'f': //Set Flag
-            fgets(xY, sizeof(xY)*3, stdin);
-            x = xY[0] - 48;
-            y = xY[2] - 48;
+            fgets(xY, sizeof(xY)*5, stdin);
+            x = inputX(xY);
+            y = inputY(xY);
             setFlag(table,x,y);
             break;
 
             case 'u': //UnFlag
-            fgets(xY, sizeof(xY)*3, stdin);
-            x= xY[0] - 48;
-            y= xY[2] - 48;
+            fgets(xY, sizeof(xY)*5, stdin);
+            x = inputX(xY);
+            y = inputY(xY);
             unflag(table,x,y);
             break;
         }
+
         cls();
     
     }
     
     return 0;
+}
+
+int inputX(char xY[]){
+    int length;
+    for(length=0 ;;length++)
+        if(xY[length]==',')  break;
+    
+    if(length == 1) return (xY[0]-48) ;
+    
+    return (xY[0]-48)*10 + (xY[1]-48);
+}
+
+int inputY(char xY[]){
+    int length;
+    int n1;
+    for(length =0 ;;length++){
+        if(xY[length]==',')  n1 = length;
+        if (xY[length]=='\0')    break; 
+    }
+    if(length-n1==3)  return (xY[n1+1] - 48);
+
+    return  (xY[n1+1]-48)*10 + (xY[2+n1]-48);
 }
 
 void randMine(int mines[],int size){
@@ -92,7 +108,7 @@ void randMine(int mines[],int size){
     }
 }
 
-///Err!?//
+
 int checker(int mines[],int n ,int a,int b){
     int num = b*30 + a;
     for(int i=0;i<n;i++){
