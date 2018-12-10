@@ -48,9 +48,11 @@ int main(){
             x = inputX(xY); //reshte be inputX dade mishavad ta x input dar x zakhire shavad
             y = inputY(xY); //reshte be inputY dade mishavad ta y input dar y zakhire shavad
             if(checker(mines,Mine,x,y) == 1){   //check mikonad bebinad mine dar an khane ast ya na
+                cls();
                 defineMines(table,mines,Mine);   //agar bood mine hara print konad va bazi tamam shavad
+                printTable(table);
                 ///////////////
-
+                return 0;
 
                 ///////////////
             }else{
@@ -112,18 +114,22 @@ int inputY(char xY[]){
     return  (xY[n1+1]-48)*10 + (xY[2+n1]-48);
 }
 
-void randMine(int mines[],int size){        //khane haye jadval ra az samte chap bala namgozari (az 0) mikonim ke M*N khane ast
-    int randomNum ;                      //banabar in 40 ta random kochektar az M*N mikhahim ke har kodam neshan dahande yek min bashad
-    srand(time(NULL));                      //sepas adad ra bedast avardi va dar mines[] zakhire mikonim
-    for (int i =0;i<size ;i++){             // va har bar check mikonim ke aya adadi ke rand ast ghablan ham amade ya na
-        randomNum = rand()%(M*N);           // adad ra mod M*N migirim ta az 0 ta M*N-1 bema dahand ke neshan dahande khane hast 
-        for(int j=0;j<i;j++){
+void randMine(int mines[],int size){    //khane haye jadval ra az samte chap bala namgozari (az 0) mikonim ke M*N khane ast
+    int randomNum =0; 
+    int count=0;    
+    srand(time(NULL));                  //banabar in 40 ta random kochektar az M*N mikhahim ke har kodam neshan dahande yek min bashad
+    while(count<size){                  //sepas adad ra bedast avardi va dar mines[] zakhire mikonim
+        randomNum = rand()%(M*N);       // va har bar check mikonim ke aya adadi ke rand ast ghablan ham amade ya na  
+        for(int j=0;j<count;j++){       // adad ra mod M*N migirim ta az 0 ta M*N-1 bema dahand ke neshan dahande khane hast 
             if(mines[j]==randomNum){
                 randomNum =-1;
                 break;
             }
         }
-        if(randomNum != -1) mines[i]= randomNum;
+        if(randomNum != -1) {
+            mines[count]= randomNum;
+            count++;
+        }
     }
 }
 
@@ -138,11 +144,9 @@ int checker(int mines[],int n ,int x,int y){  //mokhtasati migirad va motabeghe 
 
 //Err?!//
 void defineMines(char table[M][N],int mines[],int size){ //jadvale An marhale ra migirad va shomare mine haye mines[] ra 
-    int x,y;                                            //motabeghe maakos ravesh haye bala be mokhtasat tabdil mikonad
+                                               //motabeghe maakos ravesh haye bala be mokhtasat tabdil mikonad
     for(int i=0;i<size;i++){                            //sepas an mokhtasat ra be '*' tabdil mikonad
-        x = mines[i]%N;
-        y = mines[i]/N;
-        table[y][x]='*';
+        table[mines[i]/N][mines[i]%N]='*';
     }
 }
 

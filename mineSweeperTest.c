@@ -143,7 +143,7 @@ void randMine(int mines[],int size){        //khane haye jadval ra az samte chap
 
 
 int checker(int mines[],int n ,int a,int b){  //mokhtasati migirad va motabeghe raveshe bala shomare khane an mokhtasat ra bedast miavarad
-    int num = b*30 + a;                       //ke be in sorat ast. num = b*30 + a
+    int num = a*30 + b;                       //ke be in sorat ast. num = b*30 + a
     for(int i=0;i<n;i++){                     // baad check mikonad ke bebinad aya dar mines[] ham shomare khanei be haman adad hast yana
         if(num == mines[i])   return 1;       // va 0 ya 1 ra return mikonad
     }
@@ -182,12 +182,12 @@ void printTable(char table[M][N]){      //arraye pass dade shode ra print mikona
 }
 
 void setFlag(char table[M][N] ,int x ,int y){//mokhtasate x , y besorate int be setFlag pass dade mishavad ta az # be P tabdil konad
-    table[x][y] ='P';
+    table[y][x] ='P';
     
 }
 
 void unflag(char table[M][N] ,int x ,int y){//mokhtasate x , y besorate int be unFlag pass dade mishavad ta az P be # tabdil konad
-    table[x][y] = '#';
+    table[y][x] = '#';
 }
 
 
@@ -195,22 +195,22 @@ void sweeper(char table[M][N],char tableCheck[M][N],int mines[],int size,int x,i
     int count =0;                                                   //
     if(tableCheck[x][y]=='#'){                                      //
         for(int i=-1;i<2;i++){                                      //
-            if(x+i < 0 || x+i >M) continue;                         //
+            if(x+i < 0 || x+i>=M) continue;                         //
             for(int j=-1;j<2;j++){                                  //
-                if(y+j < 0 || y+j >N) continue;                     //
+                if(y+j < 0 || y+j>=N) continue;                     //
                 if(checker(mines,size,x+i,y+j) == 1)    count++;    //
             }                                                       //
         }                                                           //
                                                                         
         if(count > 0){                                              //
-            table[x][y] = count+'0';                                //
+            table[y][x] = count+'0';                                //
         }else{                                                      //
-            table[x][y]=' ';                                        //
-            tableCheck[x][y]='0';                                   //
+            table[y][x]=' ';                                        //
+            tableCheck[y][x]='0';                                   //
             for(int i=-1;i<2;i++){                                  //
-                if(x+i < 0 || x+i >M) continue;                     //
+                if(x+i < 0 || x+i>=M) continue;                     //
                 for(int j=-1;j<2;j++){                              //
-                    if(y+j < 0 || y+j >N) continue;                 //
+                    if(y+j < 0 || y+j>=N) continue;                 //
                     sweeper(table,tableCheck,mines,size,x+i,y+j);   //
                 }                                                   //
             }                                                       //
