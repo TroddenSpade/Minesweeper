@@ -8,6 +8,8 @@
 
 //Functions :
 void cls(); //pak kardan safhe
+void winner(char table[M][N],int mines[]);
+void loser(char table[M][N],int mines[]);
 int inputX(char xY[]);  //x varedshode dar cmd ra peyda mikonad
 int inputY(char xY[]);  //y varedshode dar cmd ra peyda mikonad
 int checker(int mines[],int ,int,int);  //check mikonad ke mokhtasate x,y daray bomb ast ya na
@@ -48,13 +50,8 @@ int main(){
             x = inputX(xY); //reshte be inputX dade mishavad ta x input dar x zakhire shavad
             y = inputY(xY); //reshte be inputY dade mishavad ta y input dar y zakhire shavad
             if(checker(mines,Mine,x,y) == 1){   //check mikonad bebinad mine dar an khane ast ya na
-                cls();
-                defineMines(table,mines,Mine);   //agar bood mine hara print konad va bazi tamam shavad
-                printTable(table);
-                ///////////////
+                loser(table,mines); //etmame bazi ra elam mikonad va min hara print mikonad
                 return 0;
-
-                ///////////////
             }else{
                 sweeper(table,tableCheck,mines,Mine,x,y);//agar ham khane mine nabood biayad An khane ra be sweeper pass dahad
                                                          //ta amaliate bazi anjam shavad :D
@@ -89,6 +86,19 @@ int main(){
 
 void cls(){
     system("clear");    //table ghabli ra pak mikonad
+}
+
+void winner(char table[M][N],int mines[]){
+    cls();
+    defineMines(table,mines,Mine);
+    printTable(table);
+}
+
+void loser(char table[M][N],int mines[]){   //agar bomb entekhab shavad safhe pak mishavad va bomb hara print mikonad
+    cls();
+    defineMines(table,mines,Mine);
+    printTable(table);
+    printf("\n ヽ༼ ಠ益ಠ ༽ﾉ      LOSER ! \n");
 }
 
 int inputX(char xY[]){  //xY[] ra migirad va x ra be sorat int return midahad
