@@ -17,7 +17,7 @@ void printTable(char table[M][N]);  //arraye 2d ra printf mikonad
 void setFlag(char table[M][N] ,int ,int);   //mokhtasati migirad va an ra az # be P tabdil mikonad
 void unflag(char table[M][N] ,int ,int );   //mokhtasati migirad va an ra az P be # tabdil mikonad
 void sweeper(char table[M][N],char tableCheck[M][N],int mines[],int,int ,int ); //amaliate asli ra anjam midhad ;D
-void printMines(char table[M][N],int mines[],int size); 
+void defineMines(char table[M][N],int mines[],int size); 
 //arraye i migirad va bedone avaz kardan khane haye digar
 //khane hai ke bomb dar anan bode moshakhas mikonad
 
@@ -48,7 +48,7 @@ int main(){
             x = inputX(xY); //reshte be inputX dade mishavad ta x input dar x zakhire shavad
             y = inputY(xY); //reshte be inputY dade mishavad ta y input dar y zakhire shavad
             if(checker(mines,Mine,x,y) == 1){   //check mikonad bebinad mine dar an khane ast ya na
-                printMines(table,mines,Mine);   //agar bood mine hara print konad va bazi tamam shavad
+                defineMines(table,mines,Mine);   //agar bood mine hara print konad va bazi tamam shavad
 
                 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -137,7 +137,7 @@ int checker(int mines[],int n ,int a,int b){  //mokhtasati migirad va motabeghe 
 }
 
 
-void printMines(char table[M][N],int mines[],int size){ //jadvale An marhale ra migirad va shomare mine haye mines[] ra 
+void defineMines(char table[M][N],int mines[],int size){ //jadvale An marhale ra migirad va shomare mine haye mines[] ra 
     int x,y;                                            //motabeghe maakos ravesh haye bala be mokhtasat tabdil mikonad
     for(int i=0;i<size;i++){                            //sepas an mokhtasat ra be '*' tabdil mikonad
         x = mines[i]%M;
