@@ -6,6 +6,14 @@
 #define N 30    //arz jadval
 #define Mine 40 //tedad min ha
 
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
+#define ANSI_COLOR_CYAN    "\x1b[36m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
+
 //Functions :
 void cls(); //pak kardan safhe
 int inputX(char xY[]);  //x varedshode dar cmd ra peyda mikonad
@@ -17,7 +25,7 @@ void printTable(char table[M][N]);  //arraye 2d ra printf mikonad
 void setFlag(char table[M][N] ,int ,int);   //mokhtasati migirad va an ra az # be P tabdil mikonad
 void unflag(char table[M][N] ,int ,int );   //mokhtasati migirad va an ra az P be # tabdil mikonad
 void sweeper(char table[M][N],char tableCheck[M][N],int mines[],int,int ,int ); //amaliate asli ra anjam midhad ;D
-void printMines(char table[M][N],int mines[],int size); 
+void defineMines(char table[M][N],int mines[],int size); 
 //arraye i migirad va bedone avaz kardan khane haye digar
 //khane hai ke bomb dar anan bode moshakhas mikonad
 
@@ -29,11 +37,17 @@ int main(){
     defineTable(table); //table ra be # tabdil mikonim
     int mines[Mine];    //arraye shamele Mine ta min  
     randMine(mines,Mine);   //besorate random Mine ta min ra dar mines[] gharar midahim
+    
+    defineMines(table,mines,Mine);
+    printTable(table);
+
+    defineTable(table);
 
     char cmd[3];    //char cmd baraye zakhire dastor avalie karbar cho,flg,ufl,ext,...
     char xY[5];     //char xY baraye zakhire mokhtasate vared shode be sorate reshte
 
     while(1){   //loopi ke bazi dar an anjam mishavad ta ya bebazad ya bebarad
+        
         printTable(table);// har bar dar aval table[][] print mishavad
         
         fgets(cmd, sizeof(cmd)*3, stdin);// dastor avalie gerefte mishavad
@@ -48,7 +62,7 @@ int main(){
             x = inputX(xY); //reshte be inputX dade mishavad ta x input dar x zakhire shavad
             y = inputY(xY); //reshte be inputY dade mishavad ta y input dar y zakhire shavad
             if(checker(mines,Mine,x,y) == 1){   //check mikonad bebinad mine dar an khane ast ya na
-                printMines(table,mines,Mine);   //agar bood mine hara print konad va bazi tamam shavad
+                defineMines(table,mines,Mine);   //agar bood mine hara print konad va bazi tamam shavad
 
                 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -80,7 +94,7 @@ int main(){
             break;  //va break mikhorad va az switch case kharej mishavad ta cmd jadid ra az vorodi begirad
         }
 
-        cls();  //pas az taghirat roye table[][] , table ghabli pak mishavad ta dar dor baadi loop table jadid print shavad
+        //cls();  //pas az taghirat roye table[][] , table ghabli pak mishavad ta dar dor baadi loop table jadid print shavad
     
     }
     
@@ -137,7 +151,7 @@ int checker(int mines[],int n ,int a,int b){  //mokhtasati migirad va motabeghe 
 }
 
 
-void printMines(char table[M][N],int mines[],int size){ //jadvale An marhale ra migirad va shomare mine haye mines[] ra 
+void defineMines(char table[M][N],int mines[],int size){ //jadvale An marhale ra migirad va shomare mine haye mines[] ra 
     int x,y;                                            //motabeghe maakos ravesh haye bala be mokhtasat tabdil mikonad
     for(int i=0;i<size;i++){                            //sepas an mokhtasat ra be '*' tabdil mikonad
         x = mines[i]%M;
@@ -155,9 +169,13 @@ void defineTable(char table[M][N]){     //arraye 2d ke pass midahim ta be # tabd
 }
 
 void printTable(char table[M][N]){      //arraye pass dade shode ra print mikonad
+    printf("   ");
+    for(int i =0;i<N;i++)   printf("%3d",i);
+    puts("");
     for(int i=0;i<M;i++){
+        printf("%3d",i);
         for(int j=0;j<N;j++){
-            printf("%c",table[i][j]);
+            printf("%3c",table[i][j]);
         }
         puts("");
     }
