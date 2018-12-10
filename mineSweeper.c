@@ -6,19 +6,20 @@
 #define N 30    //arz jadval
 #define Mine 40 //tedad min ha
 
-//Functions
+//Functions :
 void cls(); //pak kardan safhe
 int inputX(char xY[]);  //x varedshode dar cmd ra peyda mikonad
 int inputY(char xY[]);  //y varedshode dar cmd ra peyda mikonad
 int checker(int mines[],int ,int,int);  //check mikonad ke mokhtasate x,y daray bomb ast ya na
-void defineTable(char table[M][N]);     //jadvale dade shode ra bo # tabdil mikonad
-void randMine(int mines[],int size);    //be sorate random adadi tolid mikonad ke majmoe x,y khane bomb be sorate yekta mibashad
-void printTable(char table[M][N]);      //arraye 2d ra printf mikonad
+void defineTable(char table[M][N]); //jadvale dade shode ra bo # tabdil mikonad
+void randMine(int mines[],int size);//be sorate random adadi tolid mikonad ke majmoe x,y khane bomb be sorate yekta mibashad
+void printTable(char table[M][N]);  //arraye 2d ra printf mikonad
 void setFlag(char table[M][N] ,int ,int);   //mokhtasati migirad va an ra az # be P tabdil mikonad
 void unflag(char table[M][N] ,int ,int );   //mokhtasati migirad va an ra az P be # tabdil mikonad
 void sweeper(char table[M][N],char tableCheck[M][N],int mines[],int,int ,int ); //amaliate asli ra anjam midhad ;D
-void printMines(char table[M][N],int mines[],int size); //arraye i migirad va bedone avaz kardan khane haye digar
-                                                        //khane hai ke bomb dar anan bode moshakhas mikonad
+void printMines(char table[M][N],int mines[],int size); 
+//arraye i migirad va bedone avaz kardan khane haye digar
+//khane hai ke bomb dar anan bode moshakhas mikonad
 
 
 int main(){
@@ -57,10 +58,11 @@ int main(){
 
 
             }else{
-                sweeper(table,tableCheck,mines,Mine,x,y);   //agar ham khane mine nabood biayad An khane ra be sweeper pass dahad
-                                                            //ta amaliate bazi anjam shavad :D
+                sweeper(table,tableCheck,mines,Mine,x,y);//agar ham khane mine nabood biayad An khane ra be sweeper pass dahad
+                                                         //ta amaliate bazi anjam shavad :D
             }
-            defineTable(tableCheck); //har taghirati ke dar sweeper bar roye array tableCheck anjam shode bood be halate defult barmigardad '#'
+            defineTable(tableCheck); 
+            //har taghirati ke dar sweeper bar roye array tableCheck anjam shode bood be halate defult barmigardad '#'
             break;  //va break mikhorad va az switch case kharej mishavad ta cmd jadid ra az vorodi begirad
 
             case 'f': //Set Flag
@@ -83,6 +85,11 @@ int main(){
     }
     
     return 0;
+}
+
+
+void cls(){
+    system("clear");    //table ghabli ra pak mikonad
 }
 
 int inputX(char xY[]){  //xY[] ra migirad va x ra be sorat int return midahad
@@ -108,11 +115,11 @@ int inputY(char xY[]){
     return  (xY[n1+1]-48)*10 + (xY[2+n1]-48);
 }
 
-void randMine(int mines[],int size){                  //khane haye jadval ra az samte chap bala namgozari (az 0) mikonim ke M*N khane ast
-    int randomNum;                                    //banabar in 40 ta random kochektar az M*N mikhahim ke har kodam neshan dahande yek min bashad
-    srand(time(NULL));                                //sepas adad ra bedast avardi va dar mines[] zakhire mikonim
-    for (int i =0;i<size ;i++){                       // va har bar check mikonim ke aya adadi ke rand ast ghablan ham amade ya na
-        randomNum = rand()%(M*N);                     // adad ra mod M*N migirim ta az 0 ta M*N-1 bema dahand ke neshan dahande khane hast 
+void randMine(int mines[],int size){        //khane haye jadval ra az samte chap bala namgozari (az 0) mikonim ke M*N khane ast
+    int randomNum;                          //banabar in 40 ta random kochektar az M*N mikhahim ke har kodam neshan dahande yek min bashad
+    srand(time(NULL));                      //sepas adad ra bedast avardi va dar mines[] zakhire mikonim
+    for (int i =0;i<size ;i++){             // va har bar check mikonim ke aya adadi ke rand ast ghablan ham amade ya na
+        randomNum = rand()%(M*N);           // adad ra mod M*N migirim ta az 0 ta M*N-1 bema dahand ke neshan dahande khane hast 
         for(int j=0;j<i;j++){
             if(mines[j]==randomNum) randomNum =-1;
         }
@@ -121,10 +128,10 @@ void randMine(int mines[],int size){                  //khane haye jadval ra az 
 }
 
 
-int checker(int mines[],int n ,int a,int b){    //mokhtasati migirad va motabeghe raveshe bala shomare khane an mokhtasat ra bedast miavarad
-    int num = b*30 + a;                         //ke be in sorat ast. num = b*30 + a
-    for(int i=0;i<n;i++){                       // baad check mikonad ke bebinad aya dar mines[] ham shomare khanei be haman adad hast yana
-        if(num == mines[i])   return 1;         // va 0 ya 1 ra return mikonad
+int checker(int mines[],int n ,int a,int b){  //mokhtasati migirad va motabeghe raveshe bala shomare khane an mokhtasat ra bedast miavarad
+    int num = b*30 + a;                       //ke be in sorat ast. num = b*30 + a
+    for(int i=0;i<n;i++){                     // baad check mikonad ke bebinad aya dar mines[] ham shomare khanei be haman adad hast yana
+        if(num == mines[i])   return 1;       // va 0 ya 1 ra return mikonad
     }
     return 0;
 }
@@ -137,11 +144,6 @@ void printMines(char table[M][N],int mines[],int size){ //jadvale An marhale ra 
         y = mines[i]/14;
         table[x][y]='*';
     }
-}
-
-
-void cls(){
-    system("clear");    //table ghabli ra pak mikonad
 }
 
 void defineTable(char table[M][N]){     //arraye 2d ke pass midahim ta be # tabdil mikonad
@@ -161,42 +163,41 @@ void printTable(char table[M][N]){      //arraye pass dade shode ra print mikona
     }
 }
 
-void setFlag(char table[M][N] ,int x ,int y){   //mokhtasate x , y besorate int be setFlag pass dade mishavad ta az # be P tabdil konad
+void setFlag(char table[M][N] ,int x ,int y){//mokhtasate x , y besorate int be setFlag pass dade mishavad ta az # be P tabdil konad
     table[x][y] ='P';
     
 }
 
-void unflag(char table[M][N] ,int x ,int y){    //mokhtasate x , y besorate int be unFlag pass dade mishavad ta az P be # tabdil konad
+void unflag(char table[M][N] ,int x ,int y){//mokhtasate x , y besorate int be unFlag pass dade mishavad ta az P be # tabdil konad
     table[x][y] = '#';
 }
 
-//Err?//
-void sweeper(char table[M][N],char tableCheck[M][N],int mines[],int size,int x,int y){      //Function Asli bazi :D
-    int count =0;                                                           //
-    if(tableCheck[x][y]=='#'){                                              //
-        if(checker(mines,size,x,y) == 0){                                   //
-            for(int i=-1;i<2;i++){                                          //
-                if(x+i < 0) continue;                                       //
-                for(int j=-1;j<2;j++){                                      //
-                    if(y+j < 0) continue;                                   //
-                    if(checker(mines,size,x+i,y+j) == 1)    count++;        //
-                }                                                           //
-            }                                                               //
-                                                                            
-            if(count > 0){                                                  //
-                table[x][y] = count+'0';                                    //
-            }else{                                                          //
-                table[x][y]=' ';                                            //
-                tableCheck[x][y]='0';                                       //
-                for(int i=-1;i<2;i++){                                      //
-                    if(x+i < 0) continue;                                   //
-                    for(int j=-1;j<2;j++){                                  //
-                    if(y+j < 0) continue;                                   //
-                    sweeper(table,tableCheck,mines,size,x+i,y+j);           //
-                    }                                                       //
-                }                                                           //
-            }                                                               //
-        }                                                                   //
+
+void sweeper(char table[M][N],char tableCheck[M][N],int mines[],int size,int x,int y){   //Function Asli bazi :D
+    int count =0;                                                   //
+    if(tableCheck[x][y]=='#'){                                      //
+        for(int i=-1;i<2;i++){                                      //
+            if(x+i < 0 || x+i >M) continue;                         //
+            for(int j=-1;j<2;j++){                                  //
+                if(y+j < 0 || y+j >N) continue;                     //
+                if(checker(mines,size,x+i,y+j) == 1)    count++;    //
+            }                                                       //
+        }                                                           //
+                                                                        
+        if(count > 0){                                              //
+            table[x][y] = count+'0';                                //
+        }else{                                                      //
+            table[x][y]=' ';                                        //
+            tableCheck[x][y]='0';                                   //
+            for(int i=-1;i<2;i++){                                  //
+                if(x+i < 0 || x+i >M) continue;                     //
+                for(int j=-1;j<2;j++){                              //
+                    if(y+j < 0 || y+j >N) continue;                 //
+                    sweeper(table,tableCheck,mines,size,x+i,y+j);   //
+                }                                                   //
+            }                                                       //
+        }                                                           //
     }
     
 }
+
