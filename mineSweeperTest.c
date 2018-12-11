@@ -6,10 +6,27 @@
 #define N 30    //x jadval
 #define Mine 40 //tedad min ha
 
+
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
+#define ANSI_COLOR_CYAN    "\x1b[36m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
+
+
 //Functions :
 void cls(); //pak kardan safhe
-void winner(char table[M][N],int mines[]);
+
+///////////////////
+// score();
+///////////////////
+
+
+void winner();
 void loser(char table[M][N],int mines[]);
+int winCheck(char table[M][N]);
 int inputX(char xY[]);  //x varedshode dar cmd ra peyda mikonad
 int inputY(char xY[]);  //y varedshode dar cmd ra peyda mikonad
 int checker(int mines[],int ,int,int);  //check mikonad ke mokhtasate x,y daray bomb ast ya na
@@ -35,7 +52,7 @@ int main(){
     char cmd[3];    //char cmd baraye zakhire dastor avalie karbar cho,flg,ufl,ext,...
     char xY[5];     //char xY baraye zakhire mokhtasate vared shode be sorate reshte
 
-    while(1){   //loopi ke bazi dar an anjam mishavad ta ya bebazad ya bebarad
+    while(winCheck(table)!=40){   //loopi ke bazi dar an anjam mishavad ta ya bebazad ya bebarad
         printTable(table);// har bar dar aval table[][] print mishavad
         
         fgets(cmd, sizeof(cmd)*3, stdin);// dastor avalie gerefte mishavad
@@ -58,12 +75,14 @@ int main(){
             }
             defineTable(tableCheck); 
             //har taghirati ke dar sweeper bar roye array tableCheck anjam shode bood be halate defult barmigardad '#'
+            cls();
             break;  //va break mikhorad va az switch case kharej mishavad ta cmd jadid ra az vorodi begirad
 
             case 'f': //Set Flag
             fgets(xY, sizeof(xY)*5, stdin); //x,y be sorate "x,y" gerefte mishavad
             x = inputX(xY); //reshte be inputX dade mishavad ta x input dar x zakhire shavad
             y = inputY(xY); //reshte be inputY dade mishavad ta y input dar y zakhire shavad
+            cls();
             setFlag(table,x,y); //mokhtasate x , y besorate int be setFlag pass dade mishavad ta az # be P tabdil konad
             break;  //va break mikhorad va az switch case kharej mishavad ta cmd jadid ra az vorodi begirad
 
@@ -71,13 +90,13 @@ int main(){
             fgets(xY, sizeof(xY)*5, stdin); //x,y be sorate "x,y" gerefte mishavad
             x = inputX(xY); //reshte be inputX dade mishavad ta x input dar x zakhire shavad
             y = inputY(xY); //reshte be inputY dade mishavad ta y input dar y zakhire shavad
+            cls();
             unflag(table,x,y);  //mokhtasate x , y besorate int be unFlag pass dade mishavad ta az P be # tabdil konad
             break;  //va break mikhorad va az switch case kharej mishavad ta cmd jadid ra az vorodi begirad
         }
-
-        cls();  //pas az taghirat roye table[][] , table ghabli pak mishavad ta dar dor baadi loop table jadid print shavad
-    
     }
+
+    winner();
     
     return 0;
 }
@@ -88,22 +107,41 @@ void cls(){
     system("clear");    //table ghabli ra pak mikonad
 }
 
-void winner(char table[M][N],int mines[]){
-    cls();
-    defineMines(table,mines,Mine);
-    printTable(table);
+int winCheck(char table[M][N]){
+    int count =0;
+    for(int i=0;i<M;i++){
+        for(int j=0;j<N;j++){
+            if(table[i][j]=='P'||table[i][j]=='#'){
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
+void winner(){
+    puts(ANSI_COLOR_GREEN);
+    puts("__   __            _    _ _        ");
+    puts("\\ \\ / /           | |  | (_)       ");
+    puts(" \\ V /___  _   _  | |  | |_ _ ___ ");
+    puts("  \\ // _ \\| | | | | |/\\| | | '_  \\");
+    puts("  | | (_) | |_| | \\  /\\  / | | | | ");
+    puts("  \\_/\\___/ \\__,_|  \\/  \\/|_|_| |_| ");
+    puts(ANSI_COLOR_RESET);
 }
 
 void loser(char table[M][N],int mines[]){   //agar bomb entekhab shavad safhe pak mishavad va bomb hara print mikonad
     cls();
     defineMines(table,mines,Mine);
     printTable(table);
-    puts("   _____                       ______              ");
-    puts("  / ____|                     / ___  |               ");
-    puts(" | |  __  __ _ _ __ ___  ___  | |  | |_   ______ ___ ");
+    puts(ANSI_COLOR_RED);
+    puts("  ______                       ______              ");
+    puts(" /  ____|                     / ___  |               ");
+    puts(" | |  __  __ _ _ __ ___ ____  | |  | |_   ______ ___ ");
     puts(" | | |_ |/ _` | '_ ` _|/ _  | | |  | | \\ / / _ |' __|");
-    puts(" | |__| | (_| | | | | ||  __/ | |__| |\\ V |  __| |   ");
+    puts(" | |__| | (_| | | | | ||  __/ | |__| |\\ V /| __| |   ");
     puts(" |______|_,_|_| |_| |_||___/  |______| \\_/ \\___|_|");
+    puts(ANSI_COLOR_RESET);
 }
 
 int inputX(char xY[]){  //xY[] ra migirad va x ra be sorat int return midahad
@@ -157,7 +195,7 @@ int checker(int mines[],int n ,int x,int y){  //mokhtasati migirad va motabeghe 
     return 0;
 }
 
-//Err?!//
+
 void defineMines(char table[M][N],int mines[],int size){ //jadvale An marhale ra migirad va shomare mine haye mines[] ra 
                                                //motabeghe maakos ravesh haye bala be mokhtasat tabdil mikonad
     for(int i=0;i<size;i++){                            //sepas an mokhtasat ra be '*' tabdil mikonad
@@ -176,24 +214,28 @@ void defineTable(char table[M][N]){     //arraye 2d ke pass midahim ta be # tabd
 
 void printTable(char table[M][N]){      //arraye pass dade shode ra print mikonad
     printf("   ");
-    for(int i =0;i<N;i++)   printf("%3d",i);
+    for(int i =0;i<N;i++)   printf(ANSI_COLOR_GREEN "%3d"ANSI_COLOR_RESET,i);
     puts("");
     for(int i=0;i<M;i++){
-        printf("%3d",i);
+        printf(ANSI_COLOR_GREEN "%3d" ANSI_COLOR_RESET,i);
         for(int j=0;j<N;j++){
-            printf("%3c",table[i][j]);
+            if(table[i][j]=='#')    printf("%3c",table[i][j]);
+            else if(table[i][j]=='*')    printf(ANSI_COLOR_RED "%3c" ANSI_COLOR_RESET,table[i][j]);
+            else if(table[i][j]=='P')    printf(ANSI_COLOR_BLUE "%3c" ANSI_COLOR_RESET,table[i][j]);
+            else    printf(ANSI_COLOR_MAGENTA "%3c" ANSI_COLOR_RESET,table[i][j]);
         }
         puts("");
     }
 }
 
 void setFlag(char table[M][N] ,int x ,int y){//mokhtasate x , y besorate int be setFlag pass dade mishavad ta az # be P tabdil konad
-    table[y][x] ='P';
-    
+    if(table[y][x] =='#')   table[y][x] ='P';
+    else    puts(ANSI_COLOR_RED "-- You Cannot Change it to Flag ! -----------------"ANSI_COLOR_RESET);
 }
 
 void unflag(char table[M][N] ,int x ,int y){//mokhtasate x , y besorate int be unFlag pass dade mishavad ta az P be # tabdil konad
-    table[y][x] = '#';
+    if(table[y][x] =='P')   table[y][x] ='#';
+    else    puts(ANSI_COLOR_RED "-- There is No Flag to UnFlag ! -------------------"ANSI_COLOR_RESET);
 }
 
 
@@ -224,4 +266,5 @@ void sweeper(char table[M][N],char tableCheck[M][N],int mines[],int size,int x,i
     }
     
 }
+
 

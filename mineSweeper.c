@@ -8,8 +8,9 @@
 
 //Functions :
 void cls(); //pak kardan safhe
-void winner(char table[M][N],int mines[]);
+void winner();
 void loser(char table[M][N],int mines[]);
+int winCheck(char table[M][N]);
 int inputX(char xY[]);  //x varedshode dar cmd ra peyda mikonad
 int inputY(char xY[]);  //y varedshode dar cmd ra peyda mikonad
 int checker(int mines[],int ,int,int);  //check mikonad ke mokhtasate x,y daray bomb ast ya na
@@ -35,7 +36,7 @@ int main(){
     char cmd[3];    //char cmd baraye zakhire dastor avalie karbar cho,flg,ufl,ext,...
     char xY[5];     //char xY baraye zakhire mokhtasate vared shode be sorate reshte
 
-    while(1){   //loopi ke bazi dar an anjam mishavad ta ya bebazad ya bebarad
+    while(winCheck(table)!=40){   //loopi ke bazi dar an anjam mishavad ta ya bebazad ya bebarad
         printTable(table);// har bar dar aval table[][] print mishavad
         
         fgets(cmd, sizeof(cmd)*3, stdin);// dastor avalie gerefte mishavad
@@ -58,12 +59,14 @@ int main(){
             }
             defineTable(tableCheck); 
             //har taghirati ke dar sweeper bar roye array tableCheck anjam shode bood be halate defult barmigardad '#'
+            cls();  //
             break;  //va break mikhorad va az switch case kharej mishavad ta cmd jadid ra az vorodi begirad
 
             case 'f': //Set Flag
             fgets(xY, sizeof(xY)*5, stdin); //x,y be sorate "x,y" gerefte mishavad
             x = inputX(xY); //reshte be inputX dade mishavad ta x input dar x zakhire shavad
             y = inputY(xY); //reshte be inputY dade mishavad ta y input dar y zakhire shavad
+            cls();  //
             setFlag(table,x,y); //mokhtasate x , y besorate int be setFlag pass dade mishavad ta az # be P tabdil konad
             break;  //va break mikhorad va az switch case kharej mishavad ta cmd jadid ra az vorodi begirad
 
@@ -71,13 +74,13 @@ int main(){
             fgets(xY, sizeof(xY)*5, stdin); //x,y be sorate "x,y" gerefte mishavad
             x = inputX(xY); //reshte be inputX dade mishavad ta x input dar x zakhire shavad
             y = inputY(xY); //reshte be inputY dade mishavad ta y input dar y zakhire shavad
+            cls();  //
             unflag(table,x,y);  //mokhtasate x , y besorate int be unFlag pass dade mishavad ta az P be # tabdil konad
             break;  //va break mikhorad va az switch case kharej mishavad ta cmd jadid ra az vorodi begirad
         }
-
-        cls();  //pas az taghirat roye table[][] , table ghabli pak mishavad ta dar dor baadi loop table jadid print shavad
-    
     }
+
+    winner();
     
     return 0;
 }
@@ -88,17 +91,38 @@ void cls(){
     system("clear");    //table ghabli ra pak mikonad
 }
 
-void winner(char table[M][N],int mines[]){
-    cls();
-    defineMines(table,mines,Mine);
-    printTable(table);
+int winCheck(char table[M][N]){
+    int count =0;
+    for(int i=0;i<M;i++){
+        for(int j=0;j<N;j++){
+            if(table[i][j]=='P'||table[i][j]=='#'){
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
+void winner(){
+    
+    puts("__   __            _    _ _        ");
+    puts("\\ \\ / /           | |  | (_)       ");
+    puts(" \\ V /___  _   _  | |  | |_ _ ___ ");
+    puts("  \\ // _ \\| | | | | |/\\| | | '_  \\");
+    puts("  | | (_) | |_| | \\  /\\  / | | | | ");
+    puts("  \\_/\\___/ \\__,_|  \\/  \\/|_|_| |_| ");
 }
 
 void loser(char table[M][N],int mines[]){   //agar bomb entekhab shavad safhe pak mishavad va bomb hara print mikonad
     cls();
     defineMines(table,mines,Mine);
     printTable(table);
-    printf("\n ヽ༼ ಠ益ಠ ༽ﾉ      LOSER ! \n");
+    puts("  ______                       ______              ");
+    puts(" / _____|                     / ___  |               ");
+    puts(" | |  __  __ _ _ __ ___ ____  | |  | |_   ______ ___ ");
+    puts(" | | |_ |/ _` | '_ ` _|/ _  | | |  | | \\ / / _ |' __|");
+    puts(" | |__| | (_| | | | | ||  __/ | |__| |\\ V /| __| |   ");
+    puts(" |______|_,_|_| |_| |_||___/  |______| \\_/ \\___|_|");
 }
 
 int inputX(char xY[]){  //xY[] ra migirad va x ra be sorat int return midahad
@@ -152,7 +176,7 @@ int checker(int mines[],int n ,int x,int y){  //mokhtasati migirad va motabeghe 
     return 0;
 }
 
-//Err?!//
+
 void defineMines(char table[M][N],int mines[],int size){ //jadvale An marhale ra migirad va shomare mine haye mines[] ra 
                                                //motabeghe maakos ravesh haye bala be mokhtasat tabdil mikonad
     for(int i=0;i<size;i++){                            //sepas an mokhtasat ra be '*' tabdil mikonad
@@ -170,21 +194,26 @@ void defineTable(char table[M][N]){     //arraye 2d ke pass midahim ta be # tabd
 
 
 void printTable(char table[M][N]){      //arraye pass dade shode ra print mikonad
+    printf("   ");
+    for(int i =0;i<N;i++)   printf("%3d",i);
+    puts("");
     for(int i=0;i<M;i++){
+        printf("%3d",i);
         for(int j=0;j<N;j++){
-            printf("%c",table[i][j]);
+            printf("%3c",table[i][j]);
         }
         puts("");
     }
 }
 
 void setFlag(char table[M][N] ,int x ,int y){//mokhtasate x , y besorate int be setFlag pass dade mishavad ta az # be P tabdil konad
-    table[y][x] ='P';
-    
+    if(table[y][x] =='#')   table[y][x] ='P';
+    else    puts("-- You Cannot Change it to Flag ! -----------------");
 }
 
 void unflag(char table[M][N] ,int x ,int y){//mokhtasate x , y besorate int be unFlag pass dade mishavad ta az P be # tabdil konad
-    table[y][x] = '#';
+    if(table[y][x] =='P')   table[y][x] ='#';
+    else    puts("-- There is No Flag to UnFlag ! -------------------");
 }
 
 
@@ -215,4 +244,5 @@ void sweeper(char table[M][N],char tableCheck[M][N],int mines[],int size,int x,i
     }
     
 }
+
 
