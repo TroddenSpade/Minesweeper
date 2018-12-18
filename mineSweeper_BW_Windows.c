@@ -91,7 +91,7 @@ int main(){
 
 //Functions:
 void cls(){
-    system("clear");    //table ghabli ra pak mikonad
+    system("cls");    //table ghabli ra pak mikonad
 }
 
 int winCheck(char table[M][N]){ //tabei ke check mikonad khane haye baghi mande tedadash che ghad ast.

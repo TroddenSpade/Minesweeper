@@ -262,4 +262,3 @@ void sweeper(char table[M][N],char tableCheck[M][N],int mines[],int size,int x,i
     }                                                               //ta dar dor haye baad dochare moshkel nashavad
     
 }
-
